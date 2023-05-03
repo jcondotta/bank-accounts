@@ -1,0 +1,18 @@
+version: '3.7'
+services:
+  mysql_standalone:
+    container_name: mysql-8.0-accounts
+    image: mysql:8.0
+
+    environment:
+      MYSQL_DATABASE: accounts_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: sB6mbtzNHmCQI4eN4yLo
+      MYSQL_ROOT_PASSWORD: sB6mbtzNHmCQI4eN4yLo
+    ports:
+      - 3106:3306
+    restart: unless-stopped
+
+networks:
+  mysql_standalone:
+    driver: bridge

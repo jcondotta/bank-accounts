@@ -1,13 +1,13 @@
-package com.blitzar.accounts;
+package com.blitzar.bank.accounts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class AccountsApplication {
+public class BankAccountApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AccountsApplication.class, args);
+		SpringApplication.run(BankAccountApplication.class, args);
 	}
 
 }

@@ -1,0 +1,32 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: bank-accounts
+
+  datasource:
+    url: jdbc:mysql://localhost:3106/accounts_db
+    username: admin
+    password: sB6mbtzNHmCQI4eN4yLo
+    driverClassName: com.mysql.cj.jdbc.Driver
+
+  flyway:
+    enabled: true
+    url: ${spring.datasource.url}
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+  jackson:
+    mapper:
+      accept-case-insensitive-enums: true
+
+  level:
+    root: debug
+    sql: info
+    web: info
