@@ -1,5 +1,4 @@
 POST {{host}}/api/v1/bank-accounts
-#POST https://0dya49esw5.execute-api.eu-west-3.amazonaws.com/dev/api/v1/bank-accounts
 Content-Type: application/json
 
 {
