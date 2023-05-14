@@ -1,13 +1,10 @@
 package com.blitzar.bank.accounts;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import io.micronaut.runtime.Micronaut;
 
-@SpringBootApplication
 public class BankAccountApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(BankAccountApplication.class, args);
+		Micronaut.run(BankAccountApplication.class, args);
 	}
-
 }

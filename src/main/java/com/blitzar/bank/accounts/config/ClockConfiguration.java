@@ -1,14 +1,14 @@
 package com.blitzar.bank.accounts.config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import io.micronaut.context.annotation.Factory;
+import jakarta.inject.Singleton;
 
 import java.time.Clock;
 
-@Configuration
+@Factory
 public class ClockConfiguration {
 
-    @Bean
+    @Singleton
     public Clock currentInstantUTC(){
         return Clock.systemUTC();
     }

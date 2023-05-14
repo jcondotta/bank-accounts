@@ -1,15 +1,11 @@
 <configuration>
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <withJansi>false</withJansi>
         <encoder>
-            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %X{AWSRequestId} %X{AWSFunctionName} %X{AWSFunctionVersion} %X{AWSFunctionArn} %X{AWSFunctionMemoryLimit}  %X{AWSFunctionRemainingTime} %X{AWS-XRAY-TRACE-ID} %-5p %c{1} - %m%n</pattern>
         </encoder>
     </appender>
-
     <root level="info">
-        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="STDOUT" />
     </root>
-
-    <logger name="org.testcontainers" level="INFO"/>
-    <logger name="com.github.dockerjava" level="WARN"/>
-    <logger name="com.github.dockerjava.zerodep.shaded.org.apache.hc.client5.http.wire" level="OFF"/>
 </configuration>
