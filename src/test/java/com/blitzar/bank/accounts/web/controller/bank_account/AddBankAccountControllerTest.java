@@ -27,6 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -91,7 +92,7 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenEmptyAccountHolders_whenAddBankAccount_thenReturnBadRequest(){
-        var addBankAccountRequest = new AddBankAccountRequest(new ArrayList<AccountHolderRequest>());
+        var addBankAccountRequest = new AddBankAccountRequest(List.of());
 
         given()
             .spec(requestSpecification)
@@ -103,7 +104,7 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
                 .body("message", equalTo(HttpStatus.BAD_REQUEST.getReason()))
                     .rootPath("_embedded")
                     .body("errors", hasSize(1))
-                    .body("errors[0].message", containsString("must be not blank"));
+                    .body("errors[0].message", equalTo("accountHolders: must not be empty"));
     }
 
     @ParameterizedTest

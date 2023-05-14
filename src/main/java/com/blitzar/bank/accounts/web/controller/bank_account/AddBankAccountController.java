@@ -33,9 +33,6 @@ public class AddBankAccountController {
     @Post(consumes = MediaType.APPLICATION_JSON)
     public HttpResponse<?> addBankAccount(@Body AddBankAccountRequest request){
         System.out.println("Teste");
-        logger.debug("TesteD");
-        logger.info("TesteI");
-        logger.error("TesteE");
         BankAccount bankAccount = addBankAccountService.addBankAccount(request);
 
         return HttpResponse.created(bankAccount.getBankAccountId());
