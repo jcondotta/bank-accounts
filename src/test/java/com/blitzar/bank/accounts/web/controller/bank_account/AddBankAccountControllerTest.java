@@ -100,7 +100,7 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
         .post()
             .then()
                 .statusCode(HttpStatus.BAD_REQUEST.getCode())
-                .body("message", equalTo(HttpStatus.NOT_FOUND.getReason()))
+                .body("message", equalTo(HttpStatus.BAD_REQUEST.getReason()))
                     .rootPath("_embedded")
                     .body("errors", hasSize(1))
                     .body("errors[0].message", containsString("must be not blank"));
