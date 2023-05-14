@@ -1,9 +1,9 @@
-POST http://localhost:8090/api/v1/bank-accounts
+POST {{host}}/api/v1/bank-accounts
+#POST https://0dya49esw5.execute-api.eu-west-3.amazonaws.com/dev/api/v1/bank-accounts
 Content-Type: application/json
 
 {
   "accountHolders": [
-    {"accountHolderName":"Jefferson Condotta", "dateOfBirth":"1988-06-24"},
-    {"accountHolderName":"Maria Julia", "dateOfBirth":"2015-07-14"}
+    {"accountHolderName":"Jefferson Condotta", "dateOfBirth":"1992-06-24"}
   ]
 }
