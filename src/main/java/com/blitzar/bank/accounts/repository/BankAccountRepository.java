@@ -1,8 +1,8 @@
 package com.blitzar.bank.accounts.repository;
 
 import com.blitzar.bank.accounts.domain.BankAccount;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import io.micronaut.data.annotation.Repository;
+import io.micronaut.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface BankAccountRepository extends JpaRepository<BankAccount, Long> {
