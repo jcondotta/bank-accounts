@@ -1,7 +1,6 @@
 package com.blitzar.bank.accounts.domain;
 
-import jakarta.persistence.*;
-
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,10 +13,10 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bankAccountId;
 
-    @Column(name = "iban")
+    @Column(name = "iban", nullable = false)
     private String iban;
 
-    @Column(name = "date_of_opening")
+    @Column(name = "date_of_opening", nullable = false)
     private LocalDateTime dateOfOpening;
 
     @OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
