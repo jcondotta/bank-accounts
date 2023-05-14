@@ -1,32 +1,32 @@
-server:
-  port: 8090
-
-spring:
+micronaut:
   application:
     name: bank-accounts
+  server:
+    port: 8090
 
-  datasource:
-    url: jdbc:mysql://localhost:3106/accounts_db
-    username: admin
-    password: sB6mbtzNHmCQI4eN4yLo
-    driverClassName: com.mysql.cj.jdbc.Driver
+datasources:
+  default:
+    url: ${database.url}
+    username: ${database.username}
+    password: ${database.password}
+    driverClassName: ${database.driver:com.mysql.cj.jdbc.Driver}
 
-  flyway:
-    enabled: true
-    url: ${spring.datasource.url}
-    user: ${spring.datasource.username}
-    password: ${spring.datasource.password}
+flyway:
+  datasources:
+    default:
+      enabled: true
 
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
+jpa:
+  default:
+    entity-scan:
+      packages: 'com.blitzar.bank.accounts.domain'
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: none
+      show-sql: true
 
-  jackson:
-    mapper:
-      accept-case-insensitive-enums: true
-
-  level:
-    root: debug
-    sql: info
-    web: info
+jackson:
+  mapper:
+    accept-case-insensitive-enums: true
+    accept-single-value-as-array: true
