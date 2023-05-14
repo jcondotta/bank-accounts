@@ -73,13 +73,24 @@ public class GetBankAccountControllerTest implements MySQLTestContainer {
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
         var bankAccount = addBankAccountService.addBankAccount(addBankAccountRequest);
 
-        given()
+        BankAccountDTO bankAccountDTO = given()
             .spec(requestSpecification)
                 .pathParam("bank-account-id", bankAccount.getBankAccountId())
         .when()
             .get()
         .then()
-            .statusCode(HttpStatus.OK.getCode());
+            .statusCode(HttpStatus.OK.getCode())
+                .extract()
+                .as(BankAccountDTO.class);
+
+        assertAll(
+                () -> assertThat(bankAccountDTO.getBankAccountId()).isNotNull(),
+                () -> assertThat(bankAccountDTO.getIban()).isNotNull(),
+                () -> assertThat(bankAccountDTO.getDateOfOpening()).isEqualTo(LocalDateTime.now(testFixedInstantUTC)),
+                () -> assertThat(bankAccountDTO.getAccountHolders()).hasSize(1),
+                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder.getAccountHolderName()),
+                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder.getDateOfBirth())
+        );
     }
 
     @Test

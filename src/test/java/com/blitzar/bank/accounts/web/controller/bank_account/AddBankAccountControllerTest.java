@@ -13,6 +13,7 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import jakarta.inject.Inject;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -97,7 +99,11 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
             .when()
         .post()
             .then()
-                .statusCode(HttpStatus.BAD_REQUEST.getCode());
+                .statusCode(HttpStatus.BAD_REQUEST.getCode())
+                .body("message", equalTo(HttpStatus.NOT_FOUND.getReason()))
+                    .rootPath("_embedded")
+                    .body("errors", hasSize(1))
+                    .body("errors[0].message", containsString("must be not blank"));
     }
 
     @ParameterizedTest

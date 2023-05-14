@@ -15,17 +15,15 @@ import java.util.stream.Collectors;
 @Introspected
 public class BankAccountDTO {
 
-     @JsonProperty
-     private final Long bankAccountId;
-     @JsonProperty
-     private final String iban;
-     @JsonProperty
-     private final List<AccountHolderDTO> accountHolders;
+     private Long bankAccountId;
+     private String iban;
+     private List<AccountHolderDTO> accountHolders;
 
      @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-     private final LocalDateTime dateOfOpening;
+     private LocalDateTime dateOfOpening;
 
-     @JsonCreator
+     public BankAccountDTO() {}
+
      public BankAccountDTO(Long bankAccountId, String iban, List<AccountHolderDTO> accountHolders, LocalDateTime dateOfOpening) {
           this.bankAccountId = bankAccountId;
           this.iban = iban;
@@ -49,15 +47,31 @@ public class BankAccountDTO {
           return bankAccountId;
      }
 
+     public void setBankAccountId(Long bankAccountId) {
+          this.bankAccountId = bankAccountId;
+     }
+
      public String getIban() {
           return iban;
+     }
+
+     public void setIban(String iban) {
+          this.iban = iban;
      }
 
      public List<AccountHolderDTO> getAccountHolders() {
           return accountHolders;
      }
 
+     public void setAccountHolders(List<AccountHolderDTO> accountHolders) {
+          this.accountHolders = accountHolders;
+     }
+
      public LocalDateTime getDateOfOpening() {
           return dateOfOpening;
+     }
+
+     public void setDateOfOpening(LocalDateTime dateOfOpening) {
+          this.dateOfOpening = dateOfOpening;
      }
 }

@@ -1,9 +1,7 @@
 package com.blitzar.bank.accounts.web.dto;
 
 import com.blitzar.bank.accounts.domain.AccountHolder;
-import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.micronaut.core.annotation.Introspected;
 
 import java.time.LocalDate;
@@ -11,16 +9,15 @@ import java.time.LocalDate;
 @Introspected
 public class AccountHolderDTO {
 
-    @JsonProperty
-    private final long accountHolderId;
+    private long accountHolderId;
 
-    @JsonProperty
-    private final String accountHolderName;
+    private String accountHolderName;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    private final LocalDate dateOfBirth;
+    private LocalDate dateOfBirth;
 
-    @JsonCreator
+    public AccountHolderDTO() {}
+
     public AccountHolderDTO(long accountHolderId, String accountHolderName, LocalDate dateOfBirth) {
         this.accountHolderId = accountHolderId;
         this.accountHolderName = accountHolderName;
@@ -35,11 +32,23 @@ public class AccountHolderDTO {
         return accountHolderId;
     }
 
+    public void setAccountHolderId(long accountHolderId) {
+        this.accountHolderId = accountHolderId;
+    }
+
     public String getAccountHolderName() {
         return accountHolderName;
     }
 
+    public void setAccountHolderName(String accountHolderName) {
+        this.accountHolderName = accountHolderName;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }

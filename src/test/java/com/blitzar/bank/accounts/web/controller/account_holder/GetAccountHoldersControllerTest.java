@@ -21,10 +21,13 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import java.time.Clock;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Month;
 
 import static io.restassured.RestAssured.given;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @MicronautTest(transactional = false)
@@ -62,21 +65,16 @@ public class GetAccountHoldersControllerTest implements MySQLTestContainer {
             .get()
         .then()
             .statusCode(HttpStatus.OK.getCode())
-                .extract().as(AccountHoldersDTO.class);
+                .extract()
+                .as(AccountHoldersDTO.class);
 
-        System.out.println(accountHoldersDTO);
-
-        //TODO finish assert response fields
-//                .extract()
-//                    .as(BankAccountDTO.class);
-//
-//        assertAll(
-//                () -> assertThat(bankAccountDTO.getIban()).isNotNull(),
-//                () -> assertThat(bankAccountDTO.getDateOfOpening()).isEqualTo(LocalDateTime.now(testFixedInstantUTC)),
-//                () -> assertThat(bankAccountDTO.getAccountHolders()).hasSize(1),
-//                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder.getAccountHolderName()),
-//                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder.getDateOfBirth())
-//        );
+        assertAll(
+                () -> assertThat(accountHoldersDTO.getAccountHolders()).hasSize(2),
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder1.getAccountHolderName()),
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder1.getDateOfBirth()),
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(1).getAccountHolderName()).isEqualTo(accountHolder2.getAccountHolderName()),
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(1).getDateOfBirth()).isEqualTo(accountHolder2.getDateOfBirth())
+        );
     }
 
     @Test

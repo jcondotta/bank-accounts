@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Validated
-@Controller("/")
+@Controller(BankAccountAPIConstants.ACCOUNT_HOLDER_API_V1_MAPPING)
 public class AddAccountHolderController {
 
     private static final Logger logger = LoggerFactory.getLogger(AddBankAccountService.class);
