@@ -1,11 +1,10 @@
-package com.blitzar.bank.accounts.service;
+package com.blitzar.bank.accounts.service.bank_account;
 
 import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.service.request.AccountHolderRequest;
-import com.blitzar.bank.accounts.service.request.AddBankAccountRequest;
-import jakarta.validation.ConstraintViolationException;
-import jakarta.validation.Validation;
+import com.blitzar.bank.accounts.service.bank_account.AddBankAccountService;
+import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,13 +13,15 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validation;
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.Collections;
+import java.util.ArrayList;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.ArgumentMatchers.any;
@@ -52,7 +53,7 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenEmptyAccountHolders_whenAddBankAccount_thenThrowException(){
-        var addBankAccountRequest = new AddBankAccountRequest(Collections.EMPTY_LIST);
+        var addBankAccountRequest = new AddBankAccountRequest(new ArrayList<AccountHolderRequest>());
 
         var exception = assertThrowsExactly(ConstraintViolationException.class, () -> addBankAccountService.addBankAccount(addBankAccountRequest));
         assertThat(exception.getConstraintViolations()).hasSize(1);
