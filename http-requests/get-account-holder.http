@@ -1,2 +1,8 @@
-GET {{host}}/api/v1/bank-accounts/2/account-holders
+// @no-log
+
+< {%
+    request.variables.set("bank-account-id", 4)
+%}
+
+GET {{host}}/api/v1/bank-accounts/{{bank-account-id}}/account-holders
 Content-Type: application/json
