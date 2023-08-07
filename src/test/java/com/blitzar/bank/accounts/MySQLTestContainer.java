@@ -2,6 +2,7 @@ package com.blitzar.bank.accounts;
 
 import io.micronaut.test.support.TestPropertyProvider;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.lifecycle.Startables;
 
@@ -21,6 +22,10 @@ public interface MySQLTestContainer extends TestPropertyProvider {
     default Map<String, String> getProperties() {
         Startables.deepStart(MYSQL_CONTAINER).join();
 
+        return getMySQLProperties();
+    }
+
+    default Map<String, String> getMySQLProperties() {
         return Map.of(
                 "database.url", MYSQL_CONTAINER.getJdbcUrl(),
                 "database.username", MYSQL_CONTAINER.getUsername(),
