@@ -60,10 +60,11 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenValidRequest_whenAddBankAccount_thenReturnCreated(){
-        var accountHolderName = "Jefferson Condotta";
-        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth);
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         Long bankAccountId = given()
@@ -110,7 +111,10 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderName_whenAddBankAccount_thenReturnBadRequest(String invalidAccountHolderName){
-        var accountHolder = new AccountHolderRequest(invalidAccountHolderName, LocalDate.of(1988, Month.JUNE, 20));
+        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(invalidAccountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         given()
@@ -124,7 +128,10 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenNullAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest(){
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", null);
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, null, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         given()
@@ -138,7 +145,11 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenFutureAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest(){
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", LocalDate.now().plusDays(1));
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderDateOfBirth = LocalDate.now().plusDays(1);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         given()

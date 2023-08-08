@@ -39,12 +39,16 @@ class AddBankAccountServiceTest {
     @BeforeEach
     public void beforeEach(){
         var validator = Validation.buildDefaultValidatorFactory().getValidator();
-        addBankAccountService = new AddBankAccountService(bankAccountRepositoryMock, Clock.system(ZoneOffset.UTC), validator);
+        addBankAccountService = new AddBankAccountService(bankAccountRepositoryMock, Clock.system(ZoneOffset.UTC), validator, null);
     }
 
     @Test
     public void givenValidRequest_whenAddBankAccount_thenSaveBankAccount(){
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", LocalDate.of(1988, Month.JUNE, 20));
+        var accountHolderName = "Jefferson Condotta";
+        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         addBankAccountService.addBankAccount(addBankAccountRequest);
@@ -71,7 +75,10 @@ class AddBankAccountServiceTest {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderName_whenAddBankAccount_thenThrowException(String invalidAccountHolderName){
-        var accountHolder = new AccountHolderRequest(invalidAccountHolderName, LocalDate.of(1988, Month.JUNE, 20));
+        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(invalidAccountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         var exception = assertThrowsExactly(ConstraintViolationException.class, () -> addBankAccountService.addBankAccount(addBankAccountRequest));
@@ -89,7 +96,10 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenNullAccountHolderDateOfBirth_whenAddBankAccount_thenThrowException(){
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", null);
+        var accountHolderName = "Jefferson Condotta";
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, null, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         var exception = assertThrowsExactly(ConstraintViolationException.class, () -> addBankAccountService.addBankAccount(addBankAccountRequest));
@@ -107,7 +117,11 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenFutureAccountHolderDateOfBirth_whenAddBankAccount_thenThrowException(){
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", LocalDate.now().plusDays(1));
+        var accountHolderName = "Jefferson Condotta";
+        var accountHolderDateOfBirth = LocalDate.now().plusDays(1);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         var exception = assertThrowsExactly(ConstraintViolationException.class, () -> addBankAccountService.addBankAccount(addBankAccountRequest));
@@ -118,6 +132,28 @@ class AddBankAccountServiceTest {
                 .ifPresent(violation -> assertAll(
                         () -> assertThat(violation.getMessage()).isEqualTo("must be a past date"),
                         () -> assertThat(violation.getPropertyPath().toString()).isEqualTo("accountHolders[0].dateOfBirth")
+                ));
+
+        verify(bankAccountRepositoryMock, never()).save(any());
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(InvalidStringArgumentProvider.class)
+    public void givenInvalidAccountHolderEmailAddress_whenRegisterBankAccountApplication_thenThrowException(String invalidAccountHolderEmailAddress){
+        var accountHolderName = "Jefferson Condotta";
+        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, invalidAccountHolderEmailAddress);
+        var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
+
+        var exception = assertThrowsExactly(ConstraintViolationException.class, () -> addBankAccountService.addBankAccount(addBankAccountRequest));
+        assertThat(exception.getConstraintViolations()).hasSize(1);
+
+        exception.getConstraintViolations().stream()
+                .findFirst()
+                .ifPresent(violation -> assertAll(
+                        () -> assertThat(violation.getMessage()).isEqualTo("must not be blank"),
+                        () -> assertThat(violation.getPropertyPath().toString()).isEqualTo("accountHolders[0].emailAddress")
                 ));
 
         verify(bankAccountRepositoryMock, never()).save(any());

@@ -15,8 +15,7 @@ public interface MySQLTestContainer extends TestPropertyProvider {
     String databaseName = "integration-test-db";
 
     MySQLContainer<?> MYSQL_CONTAINER = (MySQLContainer) new MySQLContainer(mySQLImageName)
-            .withDatabaseName(databaseName)
-            .withReuse(true);
+            .withDatabaseName(databaseName);
 
     @Override
     default Map<String, String> getProperties() {

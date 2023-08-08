@@ -21,16 +21,21 @@ public class AccountHolder {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
+    @Column(name = "email_address")
+    private String emailAddress;
+
     @ManyToOne
     @JoinColumn(name="bank_account_id", nullable = false)
     private BankAccount bankAccount;
 
     public AccountHolder() {}
 
-    public AccountHolder(@NotNull BankAccount bankAccount, @NotBlank String accountHolderName, @Past LocalDate dateOfBirth) {
+    public AccountHolder(@NotNull BankAccount bankAccount, @NotBlank String accountHolderName, @Past LocalDate dateOfBirth,
+                         @NotNull String emailAddress) {
         this.bankAccount = bankAccount;
         this.accountHolderName = accountHolderName;
         this.dateOfBirth = dateOfBirth;
+        this.emailAddress = emailAddress;
     }
 
     public Long getAccountHolderId() {
@@ -63,5 +68,13 @@ public class AccountHolder {
 
     public void setBankAccount(BankAccount bankAccount) {
         this.bankAccount = bankAccount;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }

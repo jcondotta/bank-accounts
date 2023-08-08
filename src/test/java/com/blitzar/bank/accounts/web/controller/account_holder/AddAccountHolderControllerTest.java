@@ -74,11 +74,12 @@ public class AddAccountHolderControllerTest implements MySQLTestContainer {
     public void givenValidRequest_whenAddAccountHolder_thenReturnCreated(){
         var accountHolderName = "Jefferson Condotta#1929";
         var accountHolderDateOfBirth = LocalDate.of(1929, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth));
+        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress));
         var bankAccountId = addBankAccountService.addBankAccount(addBankAccountRequest).getBankAccountId();
 
-        var accountHolderRequest = new AccountHolderRequest("NBA Jam 2020", LocalDate.of(2020, Month.SEPTEMBER, 01));
+        var accountHolderRequest = new AccountHolderRequest("NBA Jam 2020", LocalDate.of(2020, Month.SEPTEMBER, 01), "nbajam2020@dummy.com");
 
         given()
             .spec(requestSpecification)
@@ -102,11 +103,12 @@ public class AddAccountHolderControllerTest implements MySQLTestContainer {
     public void givenInvalidAccountHolderName_whenAddAccountHolder_thenReturnBadRequest(String invalidAccountHolderName){
         var accountHolderName = "Jefferson Condotta#1930";
         var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth));
+        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress));
         var bankAccountId = addBankAccountService.addBankAccount(addBankAccountRequest).getBankAccountId();
 
-        var accountHolderRequest = new AccountHolderRequest(invalidAccountHolderName, LocalDate.of(2020, Month.SEPTEMBER, 01));
+        var accountHolderRequest = new AccountHolderRequest(invalidAccountHolderName, LocalDate.of(2020, Month.SEPTEMBER, 01), "invalidName@dummy.com");
 
         given()
             .spec(requestSpecification)
@@ -126,11 +128,12 @@ public class AddAccountHolderControllerTest implements MySQLTestContainer {
     public void givenNullDateOfBirth_whenAddAccountHolder_thenReturnBadRequest(){
         var accountHolderName = "Jefferson Condotta#1930";
         var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth));
+        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress));
         var bankAccountId = addBankAccountService.addBankAccount(addBankAccountRequest).getBankAccountId();
 
-        var accountHolderRequest = new AccountHolderRequest("NBA Jam 2020", null);
+        var accountHolderRequest = new AccountHolderRequest("NBA Jam 2020", null, "nbajam2020@dummy.com");
 
         given()
             .spec(requestSpecification)
@@ -150,11 +153,12 @@ public class AddAccountHolderControllerTest implements MySQLTestContainer {
     public void givenFutureDateOfBirth_whenAddBankAccount_thenReturnBadRequest(){
         var accountHolderName = "Jefferson Condotta#1930";
         var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth));
+        var addBankAccountRequest = new AddBankAccountRequest(new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress));
         var bankAccountId = addBankAccountService.addBankAccount(addBankAccountRequest).getBankAccountId();
 
-        var accountHolderRequest = new AccountHolderRequest("NBA Jam 2020", LocalDate.now().plusDays(1));
+        var accountHolderRequest = new AccountHolderRequest("NBA Jam 2020", LocalDate.now().plusDays(1), "anyemail@dummy.com");
 
         given()
             .spec(requestSpecification)

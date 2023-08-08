@@ -68,9 +68,13 @@ public class GetBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenExistingBankAccountId_whenGetBankAccount_thenReturnBankAccount(){
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta#7864", LocalDate.of(1988, Month.JUNE, 20));
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
+
         var bankAccount = addBankAccountService.addBankAccount(addBankAccountRequest);
 
         BankAccountDTO bankAccountDTO = given()
@@ -89,7 +93,8 @@ public class GetBankAccountControllerTest implements MySQLTestContainer {
                 () -> assertThat(bankAccountDTO.getDateOfOpening()).isEqualTo(LocalDateTime.now(testFixedInstantUTC)),
                 () -> assertThat(bankAccountDTO.getAccountHolders()).hasSize(1),
                 () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder.getAccountHolderName()),
-                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder.getDateOfBirth())
+                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder.getDateOfBirth()),
+                () -> assertThat(bankAccountDTO.getAccountHolders().get(0).getEmailAddress()).isEqualTo(accountHolder.getEmailAddress())
         );
     }
 

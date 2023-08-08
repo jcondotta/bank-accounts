@@ -52,8 +52,15 @@ public class GetAccountHoldersControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenExistingBankAccountId_whenGetAccountHolders_thenReturnAccountHolders(){
-        var accountHolder1 = new AccountHolderRequest("Jefferson Condotta#1954", LocalDate.of(1954, Month.JANUARY, 01));
-        var accountHolder2 = new AccountHolderRequest("Jefferson Condotta#1978", LocalDate.of(1978, Month.MAY, 30));
+        var accountHolderName1 = "Jefferson Condotta#1930";
+        var accountHolderDateOfBirth1 = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress1 = "jefferson.condotta1930@dummy.com";
+        var accountHolder1 = new AccountHolderRequest(accountHolderName1, accountHolderDateOfBirth1, accountHolderEmailAddress1);
+
+        var accountHolderName2 = "Jefferson Condotta#1940";
+        var accountHolderDateOfBirth2 = LocalDate.of(1940, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress2 = "jefferson.condotta1940@dummy.com";
+        var accountHolder2 = new AccountHolderRequest(accountHolderName2, accountHolderDateOfBirth2, accountHolderEmailAddress2);
 
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder1, accountHolder2);
         var bankAccount = addBankAccountService.addBankAccount(addBankAccountRequest);

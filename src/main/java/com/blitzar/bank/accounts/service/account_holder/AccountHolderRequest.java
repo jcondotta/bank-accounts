@@ -18,13 +18,17 @@ public class AccountHolderRequest{
     @NotNull
     private LocalDate dateOfBirth;
 
-    public AccountHolderRequest(String accountHolderName, LocalDate dateOfBirth) {
+    @NotBlank
+    private String emailAddress;
+
+    public AccountHolderRequest(String accountHolderName, LocalDate dateOfBirth, String emailAddress) {
         this.accountHolderName = accountHolderName;
         this.dateOfBirth = dateOfBirth;
+        this.emailAddress = emailAddress;
     }
 
     public AccountHolderRequest(AccountHolder accountHolder) {
-        this(accountHolder.getAccountHolderName(), accountHolder.getDateOfBirth());
+        this(accountHolder.getAccountHolderName(), accountHolder.getDateOfBirth(), accountHolder.getEmailAddress());
     }
 
     public String getAccountHolderName() {
@@ -33,5 +37,9 @@ public class AccountHolderRequest{
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
     }
 }

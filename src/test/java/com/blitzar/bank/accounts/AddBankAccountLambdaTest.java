@@ -69,10 +69,11 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
 
     @Test
     public void givenValidRequest_whenAddBankAccount_thenReturnCreated() throws JsonProcessingException {
-        var accountHolderName = "Jefferson Condotta";
-        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth);
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));
@@ -113,7 +114,10 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderName_whenAddBankAccount_thenReturnBadRequest(String invalidAccountHolderName) throws JsonProcessingException {
-        var accountHolder = new AccountHolderRequest(invalidAccountHolderName, LocalDate.of(1988, Month.JUNE, 20));
+        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(invalidAccountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));
@@ -127,7 +131,10 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
 
     @Test
     public void givenNullAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest() throws JsonProcessingException {
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", null);
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, null, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));
@@ -141,7 +148,11 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
 
     @Test
     public void givenFutureAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest() throws JsonProcessingException {
-        var accountHolder = new AccountHolderRequest("Jefferson Condotta", LocalDate.now().plusDays(1));
+        var accountHolderName = "Jefferson Condotta#1930";
+        var accountHolderDateOfBirth = LocalDate.now().plusDays(1);
+        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));

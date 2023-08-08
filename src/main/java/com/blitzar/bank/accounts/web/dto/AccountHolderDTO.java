@@ -16,16 +16,19 @@ public class AccountHolderDTO {
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
+    private String emailAddress;
+
     public AccountHolderDTO() {}
 
-    public AccountHolderDTO(long accountHolderId, String accountHolderName, LocalDate dateOfBirth) {
+    public AccountHolderDTO(long accountHolderId, String accountHolderName, LocalDate dateOfBirth, String emailAddress) {
         this.accountHolderId = accountHolderId;
         this.accountHolderName = accountHolderName;
         this.dateOfBirth = dateOfBirth;
+        this.emailAddress = emailAddress;
     }
 
     public AccountHolderDTO(AccountHolder accountHolder) {
-        this(accountHolder.getAccountHolderId(), accountHolder.getAccountHolderName(), accountHolder.getDateOfBirth());
+        this(accountHolder.getAccountHolderId(), accountHolder.getAccountHolderName(), accountHolder.getDateOfBirth(), accountHolder.getEmailAddress());
     }
 
     public long getAccountHolderId() {
@@ -50,5 +53,13 @@ public class AccountHolderDTO {
 
     public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
     }
 }
