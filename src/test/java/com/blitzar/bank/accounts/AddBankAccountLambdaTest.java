@@ -34,13 +34,14 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @MicronautLambdaTest(transactional = false)
-public class AddBankAccountLambdaTest implements MySQLTestContainer {
+public class AddBankAccountLambdaTest implements LocalStackMySQLTestContainer {
 
     private static Context lambdaContext = new MockLambdaContext();
 
@@ -59,6 +60,10 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
     @Inject
     private ApplicationContext applicationContext;
 
+    private String accountHolderName = "Jefferson Condotta";
+    private LocalDate accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+    private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
     @BeforeEach
     public void beforeEach() throws ContainerInitializationException {
         handler = new MicronautLambdaHandler(applicationContext);
@@ -69,10 +74,6 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
 
     @Test
     public void givenValidRequest_whenAddBankAccount_thenReturnCreated() throws JsonProcessingException {
-        var accountHolderName = "Jefferson Condotta#1930";
-        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -94,13 +95,14 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
                 () -> assertThat(bankAccount.getDateOfOpening()).isEqualTo(LocalDateTime.now(testFixedInstantUTC)),
                 () -> assertThat(bankAccount.getAccountHolders()).hasSize(1),
                 () -> assertThat(bankAccount.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolderName),
-                () -> assertThat(bankAccount.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolderDateOfBirth)
+                () -> assertThat(bankAccount.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolderDateOfBirth),
+                () -> assertThat(bankAccount.getAccountHolders().get(0).getEmailAddress()).isEqualTo(accountHolderEmailAddress)
         );
     }
 
     @Test
     public void givenEmptyAccountHolders_whenAddBankAccount_thenReturnBadRequest() throws JsonProcessingException {
-        var addBankAccountRequest = new AddBankAccountRequest(new ArrayList<AccountHolderRequest>());
+        var addBankAccountRequest = new AddBankAccountRequest(List.of());
 
         request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));
 
@@ -114,9 +116,6 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderName_whenAddBankAccount_thenReturnBadRequest(String invalidAccountHolderName) throws JsonProcessingException {
-        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(invalidAccountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -131,9 +130,6 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
 
     @Test
     public void givenNullAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest() throws JsonProcessingException {
-        var accountHolderName = "Jefferson Condotta#1930";
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, null, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -148,11 +144,24 @@ public class AddBankAccountLambdaTest implements MySQLTestContainer {
 
     @Test
     public void givenFutureAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest() throws JsonProcessingException {
-        var accountHolderName = "Jefferson Condotta#1930";
         var accountHolderDateOfBirth = LocalDate.now().plusDays(1);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
+        var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
+
+        request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));
+
+        AwsProxyResponse response = handler.handleRequest(request, lambdaContext);
+        assertAll(
+                () -> assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST.getCode()),
+                () -> assertThat(response.getBody()).isNotEmpty()
+        );
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(InvalidStringArgumentProvider.class)
+    public void givenInvalidAccountHolderEmailAddress_whenAddBankAccount_thenReturnBadRequest(String invalidAccountHolderEmailAddress) throws JsonProcessingException {
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, invalidAccountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         request.setBody(objectMapper.writeValueAsString(addBankAccountRequest));
