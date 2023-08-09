@@ -36,12 +36,13 @@ public class AddAccountHolderService {
             throw new ConstraintViolationException(constraintViolations);
         }
 
-        var accountHolder = new AccountHolder();
-        accountHolder.setAccountHolderName(request.getAccountHolderName());
-        accountHolder.setDateOfBirth(request.getDateOfBirth());
-        accountHolder.setBankAccount(bankAccountRepository.findById(bankAccountId)
-                .orElseThrow(() -> new ResourceNotFoundException("No bank account has been found with id: " + bankAccountId)));
+        var bankAccount = bankAccountRepository.findById(bankAccountId)
+                .orElseThrow(() -> new ResourceNotFoundException("No bank account has been found with id: " + bankAccountId));
 
+        var accountHolder = new AccountHolder(bankAccount,
+                request.getAccountHolderName(),
+                request.getDateOfBirth(),
+                request.getEmailAddress());
 
         return accountHolderRepository.save(accountHolder);
     }

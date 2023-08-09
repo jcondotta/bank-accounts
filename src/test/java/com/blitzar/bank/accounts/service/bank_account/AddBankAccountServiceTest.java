@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -36,6 +37,10 @@ class AddBankAccountServiceTest {
     @Mock
     private BankAccountRepository bankAccountRepositoryMock;
 
+    private String accountHolderName = "Jefferson Condotta";
+    private LocalDate accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+    private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
     @BeforeEach
     public void beforeEach(){
         var validator = Validation.buildDefaultValidatorFactory().getValidator();
@@ -44,10 +49,6 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenValidRequest_whenAddBankAccount_thenSaveBankAccount(){
-        var accountHolderName = "Jefferson Condotta";
-        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -57,7 +58,7 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenEmptyAccountHolders_whenAddBankAccount_thenThrowException(){
-        var addBankAccountRequest = new AddBankAccountRequest(new ArrayList<AccountHolderRequest>());
+        var addBankAccountRequest = new AddBankAccountRequest(List.of());
 
         var exception = assertThrowsExactly(ConstraintViolationException.class, () -> addBankAccountService.addBankAccount(addBankAccountRequest));
         assertThat(exception.getConstraintViolations()).hasSize(1);
@@ -75,9 +76,6 @@ class AddBankAccountServiceTest {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderName_whenAddBankAccount_thenThrowException(String invalidAccountHolderName){
-        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(invalidAccountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -96,9 +94,6 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenNullAccountHolderDateOfBirth_whenAddBankAccount_thenThrowException(){
-        var accountHolderName = "Jefferson Condotta";
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, null, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -117,9 +112,7 @@ class AddBankAccountServiceTest {
 
     @Test
     public void givenFutureAccountHolderDateOfBirth_whenAddBankAccount_thenThrowException(){
-        var accountHolderName = "Jefferson Condotta";
         var accountHolderDateOfBirth = LocalDate.now().plusDays(1);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
@@ -140,9 +133,6 @@ class AddBankAccountServiceTest {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderEmailAddress_whenRegisterBankAccountApplication_thenThrowException(String invalidAccountHolderEmailAddress){
-        var accountHolderName = "Jefferson Condotta";
-        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
-
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, invalidAccountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 

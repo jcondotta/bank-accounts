@@ -46,12 +46,13 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
     @Inject
     private BankAccountRepository bankAccountRepository;
 
+    private String accountHolderName = "Jefferson Condotta";
+    private LocalDate accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
+    private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
+
     @BeforeEach
     public void beforeEach() {
         this.bankAccountApplicationQueueURL = sqsClient.getQueueUrl(bankAccountApplicationQueueName).getQueueUrl();
-//        this.bankAccountApplicationQueueURL = sqsClient.createQueue(new CreateQueueRequest()
-//                        .withQueueName(bankAccountApplicationQueueName))
-//                .getQueueUrl();
     }
 
     @AfterEach
@@ -60,11 +61,7 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
     }
 
     @Test
-    public void givenValidBankAccountApplicationSQSMessage_whenConsumesMessage_thenCreateBankAccount() throws JsonProcessingException {
-        var accountHolderName = "Jefferson Condotta";
-        var accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
+    public void givenValidBankAccountApplicationSQSMessage_whenConsumeMessage_thenCreateBankAccount() throws JsonProcessingException {
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 

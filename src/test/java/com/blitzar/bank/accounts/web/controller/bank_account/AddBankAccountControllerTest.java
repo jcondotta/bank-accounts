@@ -1,5 +1,6 @@
 package com.blitzar.bank.accounts.web.controller.bank_account;
 
+import com.blitzar.bank.accounts.LocalStackMySQLTestContainer;
 import com.blitzar.bank.accounts.MySQLTestContainer;
 import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
 import com.blitzar.bank.accounts.domain.BankAccount;
@@ -36,7 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @MicronautTest(transactional = false)
-public class AddBankAccountControllerTest implements MySQLTestContainer {
+public class AddBankAccountControllerTest implements LocalStackMySQLTestContainer {
 
     private RequestSpecification requestSpecification;
 
@@ -45,6 +46,10 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Inject
     private Clock testFixedInstantUTC;
+
+    private String accountHolderName = "Jefferson Condotta";
+    private LocalDate accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+    private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
     @BeforeAll
     public static void beforeAll(){
@@ -60,10 +65,6 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenValidRequest_whenAddBankAccount_thenReturnCreated(){
-        var accountHolderName = "Jefferson Condotta#1930";
-        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -111,9 +112,6 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
     @ParameterizedTest
     @ArgumentsSource(InvalidStringArgumentProvider.class)
     public void givenInvalidAccountHolderName_whenAddBankAccount_thenReturnBadRequest(String invalidAccountHolderName){
-        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(invalidAccountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -128,9 +126,6 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenNullAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest(){
-        var accountHolderName = "Jefferson Condotta#1930";
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, null, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
@@ -145,11 +140,24 @@ public class AddBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenFutureAccountHolderDateOfBirth_whenAddBankAccount_thenReturnBadRequest(){
-        var accountHolderName = "Jefferson Condotta#1930";
         var accountHolderDateOfBirth = LocalDate.now().plusDays(1);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
+        var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
+
+        given()
+            .spec(requestSpecification)
+            .body(addBankAccountRequest)
+        .when()
+            .post()
+        .then()
+            .statusCode(HttpStatus.BAD_REQUEST.getCode());
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(InvalidStringArgumentProvider.class)
+    public void givenInvalidAccountHolderEmailAddress_whenAddBankAccount_thenReturnBadRequest(String invalidAccountHolderEmailAddress){
+        var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, invalidAccountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
         given()

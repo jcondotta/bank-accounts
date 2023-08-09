@@ -79,8 +79,10 @@ public class GetAccountHoldersControllerTest implements MySQLTestContainer {
                 () -> assertThat(accountHoldersDTO.getAccountHolders()).hasSize(2),
                 () -> assertThat(accountHoldersDTO.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder1.getAccountHolderName()),
                 () -> assertThat(accountHoldersDTO.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder1.getDateOfBirth()),
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(0).getEmailAddress()).isEqualTo(accountHolder1.getEmailAddress()),
                 () -> assertThat(accountHoldersDTO.getAccountHolders().get(1).getAccountHolderName()).isEqualTo(accountHolder2.getAccountHolderName()),
-                () -> assertThat(accountHoldersDTO.getAccountHolders().get(1).getDateOfBirth()).isEqualTo(accountHolder2.getDateOfBirth())
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(1).getDateOfBirth()).isEqualTo(accountHolder2.getDateOfBirth()),
+                () -> assertThat(accountHoldersDTO.getAccountHolders().get(1).getEmailAddress()).isEqualTo(accountHolder2.getEmailAddress())
         );
     }
 

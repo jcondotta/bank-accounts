@@ -40,8 +40,6 @@ class GetBankAccountServiceTest {
 
         BankAccountDTO bankAccountDTO = getBankAccountService.byId(20L);
         assertThat(bankAccountDTO).isNotNull();
-
-
     }
 
     @Test

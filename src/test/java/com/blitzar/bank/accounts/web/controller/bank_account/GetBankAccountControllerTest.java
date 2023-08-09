@@ -1,5 +1,6 @@
 package com.blitzar.bank.accounts.web.controller.bank_account;
 
+import com.blitzar.bank.accounts.LocalStackMySQLTestContainer;
 import com.blitzar.bank.accounts.MySQLTestContainer;
 import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
 import com.blitzar.bank.accounts.domain.BankAccount;
@@ -44,7 +45,7 @@ import static org.mockito.Mockito.when;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @MicronautTest(transactional = false)
-public class GetBankAccountControllerTest implements MySQLTestContainer {
+public class GetBankAccountControllerTest implements LocalStackMySQLTestContainer {
 
     private RequestSpecification requestSpecification;
 
@@ -53,6 +54,10 @@ public class GetBankAccountControllerTest implements MySQLTestContainer {
 
     @Inject
     private Clock testFixedInstantUTC;
+
+    private String accountHolderName = "Jefferson Condotta";
+    private LocalDate accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
+    private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
     @BeforeAll
     public static void beforeAll(){
@@ -68,10 +73,6 @@ public class GetBankAccountControllerTest implements MySQLTestContainer {
 
     @Test
     public void givenExistingBankAccountId_whenGetBankAccount_thenReturnBankAccount(){
-        var accountHolderName = "Jefferson Condotta#1930";
-        var accountHolderDateOfBirth = LocalDate.of(1930, Month.SEPTEMBER, 20);
-        var accountHolderEmailAddress = "jefferson.condotta@dummy.com";
-
         var accountHolder = new AccountHolderRequest(accountHolderName, accountHolderDateOfBirth, accountHolderEmailAddress);
         var addBankAccountRequest = new AddBankAccountRequest(accountHolder);
 
