@@ -1,6 +1,6 @@
-package com.blitzar.bank.accounts.service.bank_account;
+package com.blitzar.bank.accounts.service.bank_account.request;
 
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
 import io.micronaut.core.annotation.Introspected;
 
 import javax.validation.Valid;

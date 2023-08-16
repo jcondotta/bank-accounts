@@ -2,7 +2,7 @@ package com.blitzar.bank.accounts.web.controller.account_holder;
 
 import com.blitzar.bank.accounts.service.account_holder.AddAccountHolderService;
 import com.blitzar.bank.accounts.service.bank_account.AddBankAccountService;
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
 import com.blitzar.bank.accounts.web.controller.BankAccountAPIConstants;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.HttpStatus;

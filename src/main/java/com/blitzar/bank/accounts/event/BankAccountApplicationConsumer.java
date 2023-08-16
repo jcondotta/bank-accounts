@@ -1,6 +1,6 @@
-package com.blitzar.bank.accounts.service;
+package com.blitzar.bank.accounts.event;
 
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
+import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import com.blitzar.bank.accounts.service.bank_account.AddBankAccountService;
 import io.micronaut.jms.annotations.JMSListener;
 import io.micronaut.jms.annotations.Queue;
@@ -11,7 +11,6 @@ import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Singleton
 @JMSListener(SqsConfiguration.CONNECTION_FACTORY_BEAN_NAME)
 public class BankAccountApplicationConsumer {
 

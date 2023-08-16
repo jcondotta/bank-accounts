@@ -19,6 +19,8 @@ app:
   aws:
     sqs:
       bank-account-application-queue-name: bank-account-application
+    sns:
+      bank-account-created-topic-name: bank-account-created-topic
 
 datasources:
   default:

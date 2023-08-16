@@ -1,13 +1,13 @@
-package com.blitzar.bank.accounts.service;
+package com.blitzar.bank.accounts.event;
 
 import com.amazonaws.services.sqs.AmazonSQS;
-import com.amazonaws.services.sqs.model.CreateQueueRequest;
 import com.amazonaws.services.sqs.model.PurgeQueueRequest;
 import com.blitzar.bank.accounts.LocalStackMySQLTestContainer;
 import com.blitzar.bank.accounts.domain.BankAccount;
+import com.blitzar.bank.accounts.repository.AccountHolderRepository;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.micronaut.context.annotation.Value;
@@ -46,13 +46,18 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
     @Inject
     private BankAccountRepository bankAccountRepository;
 
+    @Inject
+    private AccountHolderRepository accountHolderRepository;
+
     private String accountHolderName = "Jefferson Condotta";
     private LocalDate accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
     private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
     @BeforeEach
     public void beforeEach() {
-        this.bankAccountApplicationQueueURL = sqsClient.getQueueUrl(bankAccountApplicationQueueName).getQueueUrl();
+        this.bankAccountApplicationQueueURL = sqsClient.createQueue(bankAccountApplicationQueueName).getQueueUrl();
+        this.accountHolderRepository.deleteAll();
+        this.bankAccountRepository.deleteAll();
     }
 
     @AfterEach
@@ -67,18 +72,18 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
 
         sqsClient.sendMessage(bankAccountApplicationQueueURL, objectMapper.writeValueAsString(addBankAccountRequest));
 
-        await().atMost(1, TimeUnit.SECONDS)
-            .untilAsserted(() -> {
-                List<BankAccount> bankAccounts = bankAccountRepository.findAll();
-                assertThat(bankAccounts).hasSize(1);
+        await().pollDelay(1, TimeUnit.SECONDS).untilAsserted(() -> {
 
-                assertAll(
-                        () -> assertThat(bankAccounts.get(0).getAccountHolders()).hasSize(1),
-                        () -> assertThat(bankAccounts.get(0).getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder.getAccountHolderName()),
-                        () -> assertThat(bankAccounts.get(0).getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder.getDateOfBirth()),
-                        () -> assertThat(bankAccounts.get(0).getAccountHolders().get(0).getEmailAddress()).isEqualTo(accountHolder.getEmailAddress())
-                );
-                }
-            );
+            List<BankAccount> bankAccounts = bankAccountRepository.findAll();
+            assertThat(bankAccounts).hasSize(1);
+
+            var bankAccount = bankAccounts.get(0);
+            assertAll(
+                    () -> assertThat(bankAccount.getAccountHolders()).hasSize(1),
+                    () -> assertThat(bankAccount.getAccountHolders().get(0).getAccountHolderName()).isEqualTo(accountHolder.getAccountHolderName()),
+                    () -> assertThat(bankAccount.getAccountHolders().get(0).getDateOfBirth()).isEqualTo(accountHolder.getDateOfBirth()),
+                    () -> assertThat(bankAccount.getAccountHolders().get(0).getEmailAddress()).isEqualTo(accountHolder.getEmailAddress())
+            );}
+        );
     }
 }

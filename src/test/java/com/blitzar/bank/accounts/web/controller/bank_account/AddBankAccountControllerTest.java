@@ -1,12 +1,11 @@
 package com.blitzar.bank.accounts.web.controller.bank_account;
 
 import com.blitzar.bank.accounts.LocalStackMySQLTestContainer;
-import com.blitzar.bank.accounts.MySQLTestContainer;
 import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
 import com.blitzar.bank.accounts.domain.BankAccount;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import com.blitzar.bank.accounts.web.controller.BankAccountAPIConstants;
 import io.micronaut.http.HttpStatus;
 import io.micronaut.test.extensions.junit5.annotation.MicronautTest;
@@ -14,7 +13,6 @@ import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import jakarta.inject.Inject;
-import org.apache.commons.lang3.math.NumberUtils;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +25,6 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
 import java.util.List;
 
 import static io.restassured.RestAssured.given;

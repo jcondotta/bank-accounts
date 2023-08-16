@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Introspected
 public class AccountHolderDTO {
 
-    private long accountHolderId;
+    private Long accountHolderId;
 
     private String accountHolderName;
 
@@ -20,7 +20,7 @@ public class AccountHolderDTO {
 
     public AccountHolderDTO() {}
 
-    public AccountHolderDTO(long accountHolderId, String accountHolderName, LocalDate dateOfBirth, String emailAddress) {
+    public AccountHolderDTO(Long accountHolderId, String accountHolderName, LocalDate dateOfBirth, String emailAddress) {
         this.accountHolderId = accountHolderId;
         this.accountHolderName = accountHolderName;
         this.dateOfBirth = dateOfBirth;

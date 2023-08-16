@@ -1,4 +1,4 @@
-package com.blitzar.bank.accounts.service.account_holder;
+package com.blitzar.bank.accounts.service.account_holder.request;
 
 import com.blitzar.bank.accounts.domain.AccountHolder;
 import io.micronaut.core.annotation.Introspected;

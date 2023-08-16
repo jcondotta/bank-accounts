@@ -4,6 +4,7 @@ import com.blitzar.bank.accounts.domain.AccountHolder;
 import com.blitzar.bank.accounts.exception.ResourceNotFoundException;
 import com.blitzar.bank.accounts.repository.AccountHolderRepository;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

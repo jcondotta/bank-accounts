@@ -4,6 +4,7 @@ Content-Type: application/json
 
 {
   "accountHolders": [
-    {"accountHolderName":"Marcelo D9", "dateOfBirth":"1992-06-24"}
+    {"accountHolderName":"Marcelo D9", "dateOfBirth":"1992-06-24", "emailAddress": "jefferson.condotta@dummy.com"},
+    {"accountHolderName":"Condottinha", "dateOfBirth":"1992-06-24", "emailAddress": "condottinha@dummy.com"}
   ]
 }

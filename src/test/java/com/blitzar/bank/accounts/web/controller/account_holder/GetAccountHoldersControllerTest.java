@@ -1,8 +1,8 @@
 package com.blitzar.bank.accounts.web.controller.account_holder;
 
-import com.blitzar.bank.accounts.MySQLTestContainer;
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
+import com.blitzar.bank.accounts.LocalStackMySQLTestContainer;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import com.blitzar.bank.accounts.service.bank_account.AddBankAccountService;
 import com.blitzar.bank.accounts.web.controller.BankAccountAPIConstants;
 import com.blitzar.bank.accounts.web.dto.AccountHoldersDTO;
@@ -19,9 +19,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import java.time.Clock;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Month;
 
 import static io.restassured.RestAssured.given;
@@ -31,7 +29,7 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @MicronautTest(transactional = false)
-public class GetAccountHoldersControllerTest implements MySQLTestContainer {
+public class GetAccountHoldersControllerTest implements LocalStackMySQLTestContainer {
 
     private RequestSpecification requestSpecification;
 

@@ -19,7 +19,7 @@ public class BankAccount {
     @Column(name = "date_of_opening", nullable = false)
     private LocalDateTime dateOfOpening;
 
-    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "bankAccount", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<AccountHolder> accountHolders;
 
     public Long getBankAccountId() {

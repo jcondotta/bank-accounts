@@ -1,13 +1,8 @@
 package com.blitzar.bank.accounts.web.controller.bank_account;
 
 import com.blitzar.bank.accounts.LocalStackMySQLTestContainer;
-import com.blitzar.bank.accounts.MySQLTestContainer;
-import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
-import com.blitzar.bank.accounts.domain.BankAccount;
-import com.blitzar.bank.accounts.exception.ResourceNotFoundException;
-import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import com.blitzar.bank.accounts.service.bank_account.AddBankAccountService;
 import com.blitzar.bank.accounts.web.controller.BankAccountAPIConstants;
 import com.blitzar.bank.accounts.web.dto.BankAccountDTO;
@@ -23,16 +18,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import java.time.Clock;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.Optional;
 
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @MicronautTest(transactional = false)

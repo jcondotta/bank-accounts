@@ -2,9 +2,9 @@ package com.blitzar.bank.accounts.service.bank_account;
 
 import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountService;
-import com.blitzar.bank.accounts.service.account_holder.AccountHolderRequest;
-import com.blitzar.bank.accounts.service.bank_account.AddBankAccountRequest;
+import com.blitzar.bank.accounts.event.BankAccountCreatedTopicProducer;
+import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
+import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,6 @@ import java.time.Clock;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
@@ -37,6 +36,9 @@ class AddBankAccountServiceTest {
     @Mock
     private BankAccountRepository bankAccountRepositoryMock;
 
+    @Mock
+    private BankAccountCreatedTopicProducer bankAccountCreatedTopicProducerMock;
+
     private String accountHolderName = "Jefferson Condotta";
     private LocalDate accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
     private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
@@ -44,7 +46,7 @@ class AddBankAccountServiceTest {
     @BeforeEach
     public void beforeEach(){
         var validator = Validation.buildDefaultValidatorFactory().getValidator();
-        addBankAccountService = new AddBankAccountService(bankAccountRepositoryMock, Clock.system(ZoneOffset.UTC), validator, null);
+        addBankAccountService = new AddBankAccountService(bankAccountRepositoryMock, Clock.system(ZoneOffset.UTC), validator);
     }
 
     @Test
