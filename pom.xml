@@ -47,6 +47,7 @@
                         <exclude>**/*ControllerTest*</exclude>
                         <exclude>**/*LambdaTest*</exclude>
                         <exclude>**/*IT</exclude>
+                        <exclude>**/*ConsumerTest</exclude>
                     </excludes>
                 </configuration>
             </plugin>
@@ -68,6 +69,7 @@
                     <includes>
                         <include>**/*ControllerTest*</include>
                         <include>**/*LambdaTest*</include>
+                        <include>**/*ConsumerTest*</include>
                     </includes>
                 </configuration>
             </plugin>
