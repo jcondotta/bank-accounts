@@ -3,10 +3,11 @@ package com.blitzar.bank.accounts.service.bank_account;
 import com.blitzar.bank.accounts.domain.AccountHolder;
 import com.blitzar.bank.accounts.domain.BankAccount;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.event.BankAccountCreatedTopicProducer;
+import com.blitzar.bank.accounts.event.BankAccountCreatedTopicHandler;
 import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import com.blitzar.bank.accounts.web.dto.BankAccountDTO;
 import jakarta.inject.Inject;
+import jakarta.inject.Named;
 import jakarta.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +30,14 @@ public class AddBankAccountService {
     private final Clock currentInstant;
     private final Validator validator;
 
+    private final BankAccountCreatedTopicHandler topicHandler;
+
     @Inject
-    public AddBankAccountService(BankAccountRepository repository, Clock currentInstant, Validator validator) {
+    public AddBankAccountService(BankAccountRepository repository, Clock currentInstant, Validator validator, BankAccountCreatedTopicHandler topicHandler) {
         this.repository = repository;
         this.currentInstant = currentInstant;
         this.validator = validator;
+        this.topicHandler = topicHandler;
     }
 
     public BankAccount addBankAccount(AddBankAccountRequest request){
@@ -56,7 +60,7 @@ public class AddBankAccountService {
                 .collect(Collectors.toList()));
 
         repository.save(bankAccount);
-//        topicProducer.sendMessage(new BankAccountDTO(bankAccount));
+        topicHandler.publishMessage(new BankAccountDTO(bankAccount));
 
         return bankAccount;
     }

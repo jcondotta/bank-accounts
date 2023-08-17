@@ -23,7 +23,7 @@ public class BankAccountApplicationConsumer {
         this.addBankAccountService = addBankAccountService;
     }
 
-    @Queue(value = "${app.aws.sqs.bank-account-application-queue-name}", concurrency = "1-3")
+    @Queue(value = "${aws.sqs.bank-account-application-queue-name}", concurrency = "1-3")
     public void consumeMessage(@MessageBody AddBankAccountRequest addBankAccountRequest) {
         logger.info("BankAccountApplicationConsumer received a new message.");
 

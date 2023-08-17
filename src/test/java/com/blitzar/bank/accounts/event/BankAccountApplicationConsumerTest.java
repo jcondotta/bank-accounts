@@ -55,7 +55,7 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
 
     @BeforeEach
     public void beforeEach() {
-        this.bankAccountApplicationQueueURL = sqsClient.createQueue(bankAccountApplicationQueueName).getQueueUrl();
+        this.bankAccountApplicationQueueURL = sqsClient.getQueueUrl(bankAccountApplicationQueueName).getQueueUrl();
         this.accountHolderRepository.deleteAll();
         this.bankAccountRepository.deleteAll();
     }

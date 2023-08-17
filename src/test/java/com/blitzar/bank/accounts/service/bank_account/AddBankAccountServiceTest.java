@@ -2,7 +2,7 @@ package com.blitzar.bank.accounts.service.bank_account;
 
 import com.blitzar.bank.accounts.argumentprovider.InvalidStringArgumentProvider;
 import com.blitzar.bank.accounts.repository.BankAccountRepository;
-import com.blitzar.bank.accounts.event.BankAccountCreatedTopicProducer;
+import com.blitzar.bank.accounts.event.BankAccountCreatedTopicHandler;
 import com.blitzar.bank.accounts.service.account_holder.request.AccountHolderRequest;
 import com.blitzar.bank.accounts.service.bank_account.request.AddBankAccountRequest;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,7 +37,7 @@ class AddBankAccountServiceTest {
     private BankAccountRepository bankAccountRepositoryMock;
 
     @Mock
-    private BankAccountCreatedTopicProducer bankAccountCreatedTopicProducerMock;
+    private BankAccountCreatedTopicHandler bankAccountCreatedTopicHandlerMock;
 
     private String accountHolderName = "Jefferson Condotta";
     private LocalDate accountHolderDateOfBirth = LocalDate.of(1988, Month.JUNE, 20);
@@ -46,7 +46,7 @@ class AddBankAccountServiceTest {
     @BeforeEach
     public void beforeEach(){
         var validator = Validation.buildDefaultValidatorFactory().getValidator();
-        addBankAccountService = new AddBankAccountService(bankAccountRepositoryMock, Clock.system(ZoneOffset.UTC), validator);
+        addBankAccountService = new AddBankAccountService(bankAccountRepositoryMock, Clock.system(ZoneOffset.UTC), validator, bankAccountCreatedTopicHandlerMock);
     }
 
     @Test
@@ -56,6 +56,7 @@ class AddBankAccountServiceTest {
 
         addBankAccountService.addBankAccount(addBankAccountRequest);
         verify(bankAccountRepositoryMock).save(any());
+        verify(bankAccountCreatedTopicHandlerMock).publishMessage(any());
     }
 
     @Test
@@ -73,6 +74,7 @@ class AddBankAccountServiceTest {
                 ));
 
         verify(bankAccountRepositoryMock, never()).save(any());
+        verify(bankAccountCreatedTopicHandlerMock, never()).publishMessage(any());
     }
 
     @ParameterizedTest
@@ -92,6 +94,7 @@ class AddBankAccountServiceTest {
                 ));
 
         verify(bankAccountRepositoryMock, never()).save(any());
+        verify(bankAccountCreatedTopicHandlerMock, never()).publishMessage(any());
     }
 
     @Test
@@ -110,6 +113,7 @@ class AddBankAccountServiceTest {
                 ));
 
         verify(bankAccountRepositoryMock, never()).save(any());
+        verify(bankAccountCreatedTopicHandlerMock, never()).publishMessage(any());
     }
 
     @Test
@@ -130,6 +134,7 @@ class AddBankAccountServiceTest {
                 ));
 
         verify(bankAccountRepositoryMock, never()).save(any());
+        verify(bankAccountCreatedTopicHandlerMock, never()).publishMessage(any());
     }
 
     @ParameterizedTest
@@ -149,5 +154,6 @@ class AddBankAccountServiceTest {
                 ));
 
         verify(bankAccountRepositoryMock, never()).save(any());
+        verify(bankAccountCreatedTopicHandlerMock, never()).publishMessage(any());
     }
 }
