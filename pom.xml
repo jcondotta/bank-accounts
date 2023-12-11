@@ -194,6 +194,11 @@
             <version>2.1.6-micronaut-3.0</version>
         </dependency>
         <dependency>
+            <groupId>io.micronaut.objectstorage</groupId>
+            <artifactId>micronaut-object-storage-aws</artifactId>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>

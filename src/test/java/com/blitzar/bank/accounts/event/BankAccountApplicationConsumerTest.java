@@ -55,7 +55,7 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
 
     @BeforeEach
     public void beforeEach() {
-        this.bankAccountApplicationQueueURL = sqsClient.getQueueUrl(bankAccountApplicationQueueName).getQueueUrl();
+        this.bankAccountApplicationQueueURL = sqsClient.createQueue(bankAccountApplicationQueueName).getQueueUrl();
         this.accountHolderRepository.deleteAll();
         this.bankAccountRepository.deleteAll();
     }
@@ -72,7 +72,7 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
 
         sqsClient.sendMessage(bankAccountApplicationQueueURL, objectMapper.writeValueAsString(addBankAccountRequest));
 
-        await().pollDelay(1, TimeUnit.SECONDS).untilAsserted(() -> {
+        await().pollDelay(2, TimeUnit.SECONDS).untilAsserted(() -> {
 
             List<BankAccount> bankAccounts = bankAccountRepository.findAll();
             assertThat(bankAccounts).hasSize(1);

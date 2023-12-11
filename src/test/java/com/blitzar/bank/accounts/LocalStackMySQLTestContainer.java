@@ -26,6 +26,7 @@ public interface LocalStackMySQLTestContainer extends TestPropertyProvider {
     LocalStackContainer LOCALSTACK_CONTAINER = new LocalStackContainer(LOCALSTACK_IMAGE)
             .withServices(Service.SQS)
             .withServices(Service.SNS)
+            .withServices(Service.S3)
             .withReuse(true);
 
     MySQLContainer<?> MYSQL_CONTAINER = (MySQLContainer) new MySQLContainer(mySQLImageName)
@@ -38,7 +39,7 @@ public interface LocalStackMySQLTestContainer extends TestPropertyProvider {
 
         try {
             LOCALSTACK_CONTAINER.execInContainer("awslocal", "sqs", "create-queue", "--queue-name", "bank-account-application");
-//            LOCALSTACK_CONTAINER.execInContainer("awslocal", "sns", "create-topic", "--name", "bank-account-created-topic");
+            LOCALSTACK_CONTAINER.execInContainer("awslocal", "s3api", "create-bucket", "--bucket", "blitzar-bank-account-identity-document");
         } catch (IOException e) {
             throw new RuntimeException(e);
         } catch (InterruptedException e) {
@@ -56,7 +57,8 @@ public interface LocalStackMySQLTestContainer extends TestPropertyProvider {
                 "AWS_SECRET_ACCESS_KEY", LOCALSTACK_CONTAINER.getSecretKey(),
                 "AWS_DEFAULT_REGION", LOCALSTACK_CONTAINER.getRegion(),
                 "AWS_SQS_ENDPOINT", LOCALSTACK_CONTAINER.getEndpointOverride(Service.SQS).toString(),
-                "AWS_SNS_ENDPOINT", LOCALSTACK_CONTAINER.getEndpointOverride(Service.SNS).toString());
+                "AWS_SNS_ENDPOINT", LOCALSTACK_CONTAINER.getEndpointOverride(Service.SNS).toString(),
+                "AWS_S3_ENDPOINT", LOCALSTACK_CONTAINER.getEndpointOverride(Service.S3).toString());
     }
 
     default Map<String, String> getMySQLProperties() {

@@ -1,0 +1,20 @@
+// @no-log
+
+< {%
+    request.variables.set("bank-account-id", "1"),
+    request.variables.set("account-holder-id", "1")
+%}
+
+POST {{host}}/api/v1/bank-accounts/{{bank-account-id}}/account-holders/{{account-holder-id}}/identity-document
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="fileUpload"; filename="service-card-management.pdf"
+
+// The 'input.txt' file will be uploaded
+< /Users/jeffersoncondotta/Downloads/service-card-management.pdf
+--boundary
+Content-Disposition: form-data; name="asdasdsad"
+
+1
+--boundary

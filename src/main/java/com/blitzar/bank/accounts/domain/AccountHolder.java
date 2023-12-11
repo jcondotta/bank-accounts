@@ -24,6 +24,9 @@ public class AccountHolder {
     @Column(name = "email_address")
     private String emailAddress;
 
+    @Transient
+    private String identityDocumentKey = "service-card-management.pdf";
+
     @ManyToOne
     @JoinColumn(name="bank_account_id", nullable = false)
     private BankAccount bankAccount;
@@ -76,5 +79,13 @@ public class AccountHolder {
 
     public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
+    }
+
+    public String getIdentityDocumentKey() {
+        return identityDocumentKey;
+    }
+
+    public void setIdentityDocumentKey(String identityDocumentKey) {
+        this.identityDocumentKey = identityDocumentKey;
     }
 }

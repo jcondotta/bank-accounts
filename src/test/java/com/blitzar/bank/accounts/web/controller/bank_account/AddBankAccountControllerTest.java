@@ -142,7 +142,7 @@ public class AddBankAccountControllerTest implements LocalStackMySQLTestContaine
             .then()
                 .statusCode(HttpStatus.BAD_REQUEST.getCode())
                 .body("message", equalTo(HttpStatus.BAD_REQUEST.getReason()))
-                    .rootPath("_embedded")
+                .rootPath("_embedded")
                     .body("errors", hasSize(1))
                     .body("errors[0].message", equalTo("accountHolders: must not be empty"));
     }
