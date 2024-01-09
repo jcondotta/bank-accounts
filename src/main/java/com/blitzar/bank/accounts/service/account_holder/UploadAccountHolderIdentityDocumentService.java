@@ -15,27 +15,28 @@ import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 @Singleton
 public class UploadAccountHolderIdentityDocumentService {
 
-    private AwsS3Operations awsS3Operations;
-    private AccountHolderRepository accountHolderRepository;
-
-    @Inject
-    public UploadAccountHolderIdentityDocumentService(AwsS3Operations awsS3Operations, AccountHolderRepository accountHolderRepository) {
-        this.awsS3Operations = awsS3Operations;
-        this.accountHolderRepository = accountHolderRepository;
-    }
+//    private AwsS3Operations awsS3Operations;
+//    private AccountHolderRepository accountHolderRepository;
+//
+//    @Inject
+//    public UploadAccountHolderIdentityDocumentService(AwsS3Operations awsS3Operations, AccountHolderRepository accountHolderRepository) {
+//        this.awsS3Operations = awsS3Operations;
+//        this.accountHolderRepository = accountHolderRepository;
+//    }
 
     public UploadResponse<PutObjectResponse> uploadIdentityDocument(Long bankAccountId, Long accountHolderId, CompletedFileUpload fileUpload){
         var uploadRequest = UploadRequest.fromCompletedFileUpload(fileUpload, fileUpload.getFilename());
 
-        AccountHolder accountHolder = accountHolderRepository.findById(accountHolderId)
-                .filter(accHolder -> accHolder.getBankAccount().getBankAccountId().equals(bankAccountId))
-                .orElseThrow(() -> new ResourceNotFoundException("No account holder with id: " + accountHolderId + " was found in the bank account id: " + bankAccountId));
-
-        UploadResponse<PutObjectResponse> uploadResponse = awsS3Operations.upload(uploadRequest);
-        accountHolder.setIdentityDocumentKey(uploadRequest.getKey());
-        accountHolderRepository.save(accountHolder);
-
-        return uploadResponse;
+//        AccountHolder accountHolder = accountHolderRepository.findById(accountHolderId)
+//                .filter(accHolder -> accHolder.getBankAccount().getBankAccountId().equals(bankAccountId))
+//                .orElseThrow(() -> new ResourceNotFoundException("No account holder with id: " + accountHolderId + " was found in the bank account id: " + bankAccountId));
+//
+//        UploadResponse<PutObjectResponse> uploadResponse = awsS3Operations.upload(uploadRequest);
+//        accountHolder.setIdentityDocumentKey(uploadRequest.getKey());
+//        accountHolderRepository.save(accountHolder);
+//
+//        return uploadResponse;
+        return null;
 
     }
 }

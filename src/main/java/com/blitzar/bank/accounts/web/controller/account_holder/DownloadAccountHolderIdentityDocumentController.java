@@ -19,17 +19,17 @@ public class DownloadAccountHolderIdentityDocumentController {
 
     public static final String IDENTITY_DOCUMENT_PATH = "identity-document";
 
-    private final DownloadAccountHolderIdentityDocumentService downloadAccountHolderIdentityDocumentService;
-
-    @Inject
-    public DownloadAccountHolderIdentityDocumentController(DownloadAccountHolderIdentityDocumentService downloadAccountHolderIdentityDocumentService) {
-        this.downloadAccountHolderIdentityDocumentService = downloadAccountHolderIdentityDocumentService;
-    }
+//    private final DownloadAccountHolderIdentityDocumentService downloadAccountHolderIdentityDocumentService;
+//
+//    @Inject
+//    public DownloadAccountHolderIdentityDocumentController(DownloadAccountHolderIdentityDocumentService downloadAccountHolderIdentityDocumentService) {
+//        this.downloadAccountHolderIdentityDocumentService = downloadAccountHolderIdentityDocumentService;
+//    }
 
     @Status(HttpStatus.CREATED)
     @Get(value = IDENTITY_DOCUMENT_PATH)
     public HttpResponse<?> uploadIdentification(@PathVariable("bank-account-id") Long bankAccountId, @PathVariable("account-holder-id") Long accountHolderId, HttpRequest<?> request){
-        downloadAccountHolderIdentityDocumentService.downloadIdentityDocument(bankAccountId, accountHolderId);
+//        downloadAccountHolderIdentityDocumentService.downloadIdentityDocument(bankAccountId, accountHolderId);
         return HttpResponse.ok();
     }
 }

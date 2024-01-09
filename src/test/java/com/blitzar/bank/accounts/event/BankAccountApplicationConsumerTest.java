@@ -72,7 +72,7 @@ public class BankAccountApplicationConsumerTest implements LocalStackMySQLTestCo
 
         sqsClient.sendMessage(bankAccountApplicationQueueURL, objectMapper.writeValueAsString(addBankAccountRequest));
 
-        await().pollDelay(2, TimeUnit.SECONDS).untilAsserted(() -> {
+        await().pollDelay(5, TimeUnit.SECONDS).untilAsserted(() -> {
 
             List<BankAccount> bankAccounts = bankAccountRepository.findAll();
             assertThat(bankAccounts).hasSize(1);

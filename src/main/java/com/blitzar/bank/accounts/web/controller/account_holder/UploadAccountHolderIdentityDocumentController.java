@@ -18,24 +18,26 @@ public class UploadAccountHolderIdentityDocumentController {
 
     public static final String UPLOAD_IDENTIFICATION_PATH = "upload-identification";
 
-    private final UploadAccountHolderIdentityDocumentService uploadAccountHolderIdentityDocumentService;
-    private final HttpHostResolver httpHostResolver;
-
-    @Inject
-    public UploadAccountHolderIdentityDocumentController(UploadAccountHolderIdentityDocumentService uploadAccountHolderIdentityDocumentService, HttpHostResolver httpHostResolver) {
-        this.uploadAccountHolderIdentityDocumentService = uploadAccountHolderIdentityDocumentService;
-        this.httpHostResolver = httpHostResolver;
-    }
+//    private final UploadAccountHolderIdentityDocumentService uploadAccountHolderIdentityDocumentService;
+//    private final HttpHostResolver httpHostResolver;
+//
+//    @Inject
+//    public UploadAccountHolderIdentityDocumentController(UploadAccountHolderIdentityDocumentService uploadAccountHolderIdentityDocumentService, HttpHostResolver httpHostResolver) {
+//        this.uploadAccountHolderIdentityDocumentService = uploadAccountHolderIdentityDocumentService;
+//        this.httpHostResolver = httpHostResolver;
+//    }
 
     @Status(HttpStatus.CREATED)
     @Post(value = UPLOAD_IDENTIFICATION_PATH, consumes = MediaType.MULTIPART_FORM_DATA)
     public HttpResponse<?> uploadIdentification(CompletedFileUpload fileUpload, @PathVariable("bank-account-id") Long bankAccountId, @PathVariable("account-holder-id") Long accountHolderId, HttpRequest<?> request){
-        UploadResponse<PutObjectResponse> response = uploadAccountHolderIdentityDocumentService.uploadIdentityDocument(bankAccountId, accountHolderId, fileUpload);
+//        UploadResponse<PutObjectResponse> response = uploadAccountHolderIdentityDocumentService.uploadIdentityDocument(bankAccountId, accountHolderId, fileUpload);
+//
+//        return HttpResponse.created(UriBuilder.of(httpHostResolver.resolve(request))
+//                        .path(UPLOAD_IDENTIFICATION_PATH)
+//                        .path(response.getKey())
+//                        .build())
+//                .header(HttpHeaders.ETAG, response.getETag());
 
-        return HttpResponse.created(UriBuilder.of(httpHostResolver.resolve(request))
-                        .path(UPLOAD_IDENTIFICATION_PATH)
-                        .path(response.getKey())
-                        .build())
-                .header(HttpHeaders.ETAG, response.getETag());
+        return null;
     }
 }

@@ -60,7 +60,7 @@ public class AddBankAccountService {
                 .collect(Collectors.toList()));
 
         repository.save(bankAccount);
-//        topicHandler.publishMessage(new BankAccountDTO(bankAccount));
+        topicHandler.publishMessage(new BankAccountDTO(bankAccount));
 
         return bankAccount;
     }

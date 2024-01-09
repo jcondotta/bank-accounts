@@ -19,7 +19,7 @@ public class AWSS3ClientFactory {
     @Value("${aws.region}")
     private String region;
 
-//    @Singleton
+    @Singleton
     S3Client sqsClient(AWSCredentials awsCredentials) {
         return S3Client
                 .builder()

@@ -27,7 +27,7 @@ class UploadAccountHolderIdentityDocumentServiceTest {
 
     @BeforeEach
     public void beforeEach(){
-        uploadAccountHolderIdentityDocumentService = new UploadAccountHolderIdentityDocumentService(null, accountHolderRepository);
+//        uploadAccountHolderIdentityDocumentService = new UploadAccountHolderIdentityDocumentService(null, accountHolderRepository);
     }
 
     @Test

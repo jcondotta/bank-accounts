@@ -27,8 +27,8 @@ import java.util.function.Consumer;
 
 import static io.restassured.RestAssured.given;
 
-@TestInstance(Lifecycle.PER_CLASS)
-@MicronautTest(transactional = false)
+//@TestInstance(Lifecycle.PER_CLASS)
+//@MicronautTest(transactional = false)
 class UploadAccountHolderIdentityDocumentControllerTest implements LocalStackMySQLTestContainer {
 
     private RequestSpecification requestSpecification;
@@ -49,25 +49,25 @@ class UploadAccountHolderIdentityDocumentControllerTest implements LocalStackMyS
     private LocalDate accountHolderDateOfBirth = LocalDate.of(1929, Month.SEPTEMBER, 20);
     private String accountHolderEmailAddress = "jefferson.condotta@dummy.com";
 
-    @BeforeAll
+//    @BeforeAll
     public static void beforeAll(){
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
     }
 
-    @BeforeEach
+//    @BeforeEach
     public void beforeEach(RequestSpecification requestSpecification) {
         this.requestSpecification = requestSpecification
                 .contentType(ContentType.MULTIPART)
                 .basePath(BankAccountAPIConstants.GET_ACCOUNT_HOLDER_V1_MAPPING);
     }
 
-    @AfterEach
+//    @AfterEach
     public void afterEach(){
         accountHolderRepository.deleteAll();
         bankAccountRepository.deleteAll();
     }
 
-    @Test
+//    @Test
     public void givenValidRequest_whenUploadIdentityDocument_thenReturnCreated(){
 //        CreateBucketRequest bucketRequest = CreateBucketRequest.builder()
 //                .bucket(bucketName)

@@ -3,12 +3,12 @@ micronaut:
     name: bank-accounts
   server:
     port: 8090
-    multipart:
-      max-file-size: 20971520 # 20 * 1024 * 1024 = 20MB
-  object-storage:
-    aws:
-      default:
-        bucket: blitzar-bank-account-identity-document
+#    multipart:
+#      max-file-size: 20971520 # 20 * 1024 * 1024 = 20MB
+#  object-storage:
+#    aws:
+#      default:
+#        bucket: blitzar-bank-account-identity-document
   jms:
     sqs:
       enabled: true
@@ -22,6 +22,7 @@ aws:
   sns:
     topic: bank-account-created-topic
     region: ${AWS_DEFAULT_REGION}
+    endpoint: ${AWS_SNS_ENDPOINT}
   s3:
     endpoint: ${AWS_S3_ENDPOINT}
 
@@ -51,7 +52,7 @@ jpa:
     properties:
       hibernate:
         hbm2ddl:
-          auto: none
+          auto: update
       show-sql: true
 
 jackson:
