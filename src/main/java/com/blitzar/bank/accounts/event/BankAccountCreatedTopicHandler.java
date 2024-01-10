@@ -7,7 +7,7 @@ import com.blitzar.bank.accounts.web.dto.BankAccountDTO;
 @NotificationClient
 public interface BankAccountCreatedTopicHandler {
 
-    @Topic(value = "${aws.sns.topic}")
+    @Topic(value = "${app.aws.sns.bank-account-created-topic-name}")
     String publishMessage(BankAccountDTO bankAccount);
 
 }

@@ -20,9 +20,7 @@ aws:
   sqs:
     endpoint: ${AWS_SQS_ENDPOINT}
   sns:
-    topic: bank-account-created-topic
-    region: ${AWS_DEFAULT_REGION}
-    endpoint: ${AWS_SNS_ENDPOINT}
+#    endpoint: ${AWS_SNS_ENDPOINT}
   s3:
     endpoint: ${AWS_S3_ENDPOINT}
 

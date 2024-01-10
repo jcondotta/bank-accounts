@@ -62,6 +62,8 @@ public class AddBankAccountService {
         repository.save(bankAccount);
         topicHandler.publishMessage(new BankAccountDTO(bankAccount));
 
+        logger.info("A new bank account has been recorded.");
+
         return bankAccount;
     }
 }
